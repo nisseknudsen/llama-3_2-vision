@@ -1,6 +1,7 @@
 build_kit:
   name: file://build_kit/Dockerfile
   version: latest
+  target_architectures: ["amd64"]
 provider_endpoints:
   - name: IMAGE_TO_TEXT
     requester_message_type: make87_messages.image.compressed.image_jpeg.ImageJPEG
