@@ -1,1 +1,1 @@
-# Publisher Template for Python
+# Llama 3.2 Vision

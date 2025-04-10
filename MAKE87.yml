@@ -1,6 +1,7 @@
 build_kit:
-  name: python3
+  name: file://build_kit/Dockerfile
   version: latest
-outbound_topics:
-  - name: HELLO_WORLD_MESSAGE
-    message_type: make87_messages.text.text_plain.PlainText
+provider_endpoints:
+  - name: IMAGE_TO_TEXT
+    requester_message_type: make87_messages.image.compressed.image_jpeg.ImageJPEG
+    provider_message_type: make87_messages.text.text_plain.PlainText
