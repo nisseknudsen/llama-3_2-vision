@@ -1,5 +1,5 @@
 import base64
-from typing import Literal
+from typing import Literal, Optional
 
 from make87_messages.core.header_pb2 import Header
 from make87_messages.image.compressed.image_jpeg_pb2 import ImageJPEG
@@ -23,14 +23,17 @@ class ImageDescription(BaseModel):
     colors: list[str]
     time_of_day: Literal["Morning", "Afternoon", "Evening", "Night"]
     setting: Literal["Indoor", "Outdoor", "Unknown"]
-    text_content: str | None = None
+    text_content: Optional[str] = None
 
 
 def main():
     make87.initialize()
-    endpoint = make87.get_provider(
+
+    text_publisher = make87.get_publisher(name="TEXT_OUTPUT", message_type=PlainText)
+    text_endpoint = make87.get_provider(
         name="IMAGE_TO_TEXT", requester_message_type=ImageJPEG, provider_message_type=PlainText
     )
+    jpeg_subscriber = make87.get_subscriber(name="IMAGE_DATA", message_type=ImageJPEG)
 
     print("Loading Model...")
     client = Client()
@@ -70,7 +73,8 @@ def main():
             body=image_analysis.model_dump_json(),
         )
 
-    endpoint.provide(callback)
+    jpeg_subscriber.subscribe(lambda msg: text_publisher.publish(callback(msg)))
+    text_endpoint.provide(callback)
     make87.loop()
 
 

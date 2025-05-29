@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "app"
 version = "0.0.1"
 dependencies = [
-  "make87",
+  "make87<=0.1.0",
   "make87_messages",
   "ollama>=0.4.7,<1.0.0",
   "pydantic>=2.11.3,<3.0.0",

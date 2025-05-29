@@ -1,10 +1,10 @@
-FROM ollama/ollama:0.6.5 AS builder
+FROM ollama/ollama:latest AS builder
 
 RUN ollama serve & \
     sleep 3 && \
     ollama pull llama3.2-vision
 
-FROM ollama/ollama:0.6.5
+FROM ollama/ollama:latest
 
 COPY --from=builder /root/.ollama /root/.ollama
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
